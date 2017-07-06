@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AllAlbums from "./AllAlbums";
+import StatefulAlbums from "./StatefulAlbums.jsx";
 import SingleAlbum from "./SingleAlbum";
 import SingleArtist from "./SingleArtist.jsx";
 import Sidebar from "./Sidebar";
@@ -18,8 +18,8 @@ export default class Main extends Component {
           </div>
 
           <div className="col-xs-10">
-            <Route exact path="/" component={AllAlbums} />
-            <Route exact path="/albums" component={AllAlbums} />
+            <Route exact path="/" component={StatefulAlbums} />
+            <Route exact path="/albums" component={StatefulAlbums} />
             <Route exact path="/albums/:id" component={SingleAlbum} />
             <Route exact path="/artists/:id" component={SingleArtist} />
             <Route exact path="/artists" component={AllArtists} />

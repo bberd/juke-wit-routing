@@ -10444,9 +10444,9 @@ var _react = __webpack_require__(15);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _AllAlbums = __webpack_require__(109);
+var _StatefulAlbums = __webpack_require__(257);
 
-var _AllAlbums2 = _interopRequireDefault(_AllAlbums);
+var _StatefulAlbums2 = _interopRequireDefault(_StatefulAlbums);
 
 var _SingleAlbum = __webpack_require__(112);
 
@@ -10504,8 +10504,8 @@ var Main = function (_Component) {
           _react2.default.createElement(
             "div",
             { className: "col-xs-10" },
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/", component: _AllAlbums2.default }),
-            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/albums", component: _AllAlbums2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/", component: _StatefulAlbums2.default }),
+            _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/albums", component: _StatefulAlbums2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/albums/:id", component: _SingleAlbum2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/artists/:id", component: _SingleArtist2.default }),
             _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: "/artists", component: _AllArtists2.default })
@@ -11409,32 +11409,13 @@ var AllAlbums = function (_Component) {
   function AllAlbums() {
     _classCallCheck(this, AllAlbums);
 
-    var _this = _possibleConstructorReturn(this, (AllAlbums.__proto__ || Object.getPrototypeOf(AllAlbums)).call(this));
-
-    _this.state = {
-      albums: []
-    };
-    return _this;
+    return _possibleConstructorReturn(this, (AllAlbums.__proto__ || Object.getPrototypeOf(AllAlbums)).apply(this, arguments));
   }
 
   _createClass(AllAlbums, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      var _this2 = this;
-
-      _axios2.default.get("/api/albums/").then(function (res) {
-        return res.data;
-      }).then(function (albums) {
-        _this2.setState({ albums: albums });
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
-
-      var albums = this.state.albums;
-      var selectAlbum = this.props.selectAlbum;
+      var albums = this.props.albums;
 
       return _react2.default.createElement(
         "div",
@@ -11451,7 +11432,6 @@ var AllAlbums = function (_Component) {
             return _react2.default.createElement(
               "div",
               { className: "col-xs-4", key: album.id },
-              console.log(_this3.props.match.params.id),
               _react2.default.createElement(
                 _reactRouterDom.Link,
                 { to: "/albums/" + album.id, className: "thumbnail" },
@@ -27881,6 +27861,7 @@ var SingleArtist = function (_Component) {
     var _this = _possibleConstructorReturn(this, (SingleArtist.__proto__ || Object.getPrototypeOf(SingleArtist)).call(this));
 
     _this.state = {
+      artist: {},
       artistAlbums: [],
       artistSongs: []
     };
@@ -27902,6 +27883,11 @@ var SingleArtist = function (_Component) {
       }).then(function (artistSongs) {
         _this2.setState({ artistSongs: artistSongs });
       });
+      _axios2.default.get('/api/artists/' + this.props.match.params.id).then(function (res) {
+        return res.data;
+      }).then(function (artist) {
+        _this2.setState({ artist: artist });
+      });
     }
   }, {
     key: 'render',
@@ -27920,7 +27906,12 @@ var SingleArtist = function (_Component) {
           _react2.default.createElement(
             'h3',
             null,
-            'Albums'
+            this.state.artist.name
+          ),
+          _react2.default.createElement(
+            'h4',
+            null,
+            'ALBUMS'
           ),
           _react2.default.createElement(
             'div',
@@ -27955,10 +27946,15 @@ var SingleArtist = function (_Component) {
                   )
                 )
               );
-            }),
-            _react2.default.createElement(_Songs2.default, { songs: artistSongs })
+            })
           )
-        )
+        ),
+        _react2.default.createElement(
+          'h4',
+          null,
+          'SONGS'
+        ),
+        _react2.default.createElement(_Songs2.default, { songs: artistSongs })
       );
     }
   }]);
@@ -27967,6 +27963,78 @@ var SingleArtist = function (_Component) {
 }(_react.Component);
 
 exports.default = SingleArtist;
+
+/***/ }),
+/* 257 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(15);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRouterDom = __webpack_require__(243);
+
+var _axios = __webpack_require__(91);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _AllAlbums = __webpack_require__(109);
+
+var _AllAlbums2 = _interopRequireDefault(_AllAlbums);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var StatefulAlbums = function (_Component) {
+  _inherits(StatefulAlbums, _Component);
+
+  function StatefulAlbums() {
+    _classCallCheck(this, StatefulAlbums);
+
+    var _this = _possibleConstructorReturn(this, (StatefulAlbums.__proto__ || Object.getPrototypeOf(StatefulAlbums)).call(this));
+
+    _this.state = {
+      albums: []
+    };
+    return _this;
+  }
+
+  _createClass(StatefulAlbums, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      _axios2.default.get("/api/albums/").then(function (res) {
+        return res.data;
+      }).then(function (albums) {
+        _this2.setState({ albums: albums });
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return _react2.default.createElement(_AllAlbums2.default, { albums: this.state.albums });
+    }
+  }]);
+
+  return StatefulAlbums;
+}(_react.Component);
+
+exports.default = StatefulAlbums;
 
 /***/ })
 /******/ ]);

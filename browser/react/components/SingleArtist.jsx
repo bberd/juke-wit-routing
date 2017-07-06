@@ -7,6 +7,7 @@ export default class SingleArtist extends Component {
   constructor() {
     super()
     this.state = {
+      artist: {},
       artistAlbums: [],
       artistSongs: []
     }
@@ -19,6 +20,9 @@ export default class SingleArtist extends Component {
     axios.get(`/api/artists/${this.props.match.params.id}/songs`).then(res => res.data).then(artistSongs => {
       this.setState({ artistSongs });
     });
+    axios.get(`/api/artists/${this.props.match.params.id}`).then(res => res.data).then(artist => {
+      this.setState({ artist });
+    });
   }
 
   render () {
@@ -28,7 +32,8 @@ export default class SingleArtist extends Component {
     return (
       <div className="artist">
         <div>
-        <h3>Albums</h3>
+        <h3>{this.state.artist.name}</h3>
+        <h4>ALBUMS</h4>
         <div className="row">
           {artistAlbums.map(album =>
             <div className="col-xs-4" key={album.id}>
@@ -48,11 +53,12 @@ export default class SingleArtist extends Component {
               </Link>
             </div>
           )}
-            <Songs songs={artistSongs} />
+
 
         </div>
       </div>
-
+      <h4>SONGS</h4>
+      <Songs songs={artistSongs} />
     </div>
     );
   }

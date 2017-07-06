@@ -1,4 +1,6 @@
-import React, { Component, Link } from "react";
+import React, { Component } from 'react';
+import { Link } from "react-router-dom";
+import axios from 'axios';
 
 export default class AllArtists extends Component {
   constructor() {
@@ -6,6 +8,12 @@ export default class AllArtists extends Component {
     this.state = {
       artists: []
     };
+  }
+
+  componentDidMount() {
+    axios.get("/api/artists/").then(res => res.data).then(artists => {
+      this.setState({ artists });
+    });
   }
 
   render() {
@@ -17,7 +25,7 @@ export default class AllArtists extends Component {
             return (
               <div className="list-group-item" key={artist.id}>
                 {/* determine where to actually Link to later! */}
-                <Link to="">
+                <Link to={"/artists/" + artist.id}>
                   {artist.name}
                 </Link>
               </div>
